@@ -1,7 +1,7 @@
 """
 This filke as it is now only downloads the first 100 samples
-The script should be modified to iterate over offset and length to download all samples
-
+# TODO The script should be modified to iterate over offset and length to download all samples
+# TODO The number of rows is in the json file! num_rows_total
 """
 import urllib.parse
 import requests
