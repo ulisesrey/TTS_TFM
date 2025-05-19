@@ -8,9 +8,9 @@ import requests
 
 
 
-def download_json():
-
+def download_json(user, dataset, config, split, offset, length, output):
     # URL-encode the dataset name (user/dataset)
+    # Converts / to %2F
     encoded_dataset = urllib.parse.quote(f"{user}/{dataset}")
 
     # Construct the URL
@@ -51,4 +51,4 @@ if __name__ == "__main__":
     for dataset in datasets:
         for config in configs:
             output = f"data/dataset_json/{user}_{dataset}_{config}_{offset}_{length}.json"
-            download_json()
+            download_json(user, dataset, config, split, offset, length, output)
