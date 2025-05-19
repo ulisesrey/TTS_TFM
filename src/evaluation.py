@@ -40,7 +40,7 @@ if __name__ == "__main__":
         for dataset in datasets:
             print(f"Evaluating {dataset} {voice}")
             if voice == "female" and dataset == "colombian":
-                print("Skipping {dataset} {voice}")
+                print(f"Skipping {dataset} {voice}")
                 continue
 
             # Create a csv writer to save the mcd values
@@ -50,24 +50,21 @@ if __name__ == "__main__":
                 if write_header:
                     f.write("Filename,MCD\n")
 
-            # Required _ before voice so *male does not match female
-            ground_truth_files = natsorted(glob.glob(f"data/audio_ground_truth/*{dataset}*_{voice}*.wav"))
-            inferenced_files = natsorted(glob.glob(f"data/inferenced/*{dataset}*_{voice}*.wav"))
-            
-            # print(len(ground_truth_files))
+                # Required _ before voice so *male does not match female
+                ground_truth_files = natsorted(glob.glob(f"data/audio_ground_truth/*{dataset}*_{voice}*.wav"))
+                inferenced_files = natsorted(glob.glob(f"data/inferenced/*{dataset}*_{voice}*.wav"))
+                
+                for y_true_path, y_pred_path in zip(ground_truth_files, inferenced_files):
+                    if os.path.basename(y_true_path) == os.path.basename(y_pred_path):
+                        print(f"Processing {y_true_path} and {y_pred_path}")
+                        y_true, sr = librosa.load(y_true_path, sr=16000)
+                        y_pred, sr = librosa.load(y_pred_path, sr=16000)
 
+                        mcd = compute_mcd(y_true, y_pred)
 
-            for y_true_path, y_pred_path in zip(ground_truth_files, inferenced_files):
-                if os.path.basename(y_true_path) == os.path.basename(y_pred_path):
-                    print(f"Processing {y_true_path} and {y_pred_path}")
-                    y_true, sr = librosa.load(y_true_path, sr=16000)
-                    y_pred, sr = librosa.load(y_pred_path, sr=16000)
-
-                    mcd = compute_mcd(y_true, y_pred)
-
-                    # Save the mcd using a csv writer
-                    f.write(f"{os.path.basename(y_true_path)},{mcd:.3f}\n")
-                else:
-                    print(f"Skipping {y_true_path} and {y_pred_path} - files do not match")
-                    continue
+                        # Save the mcd using a csv writer
+                        f.write(f"{os.path.basename(y_true_path)},{mcd:.3f}\n")
+                    else:
+                        print(f"Skipping {y_true_path} and {y_pred_path} - files do not match")
+                        continue
 
