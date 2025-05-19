@@ -1,3 +1,4 @@
 data/inferenced/*.wav
 data/audio_ground_truth/*.wav
 .DS_Store
+data/inferenced_old/*.wav
