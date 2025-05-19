@@ -36,12 +36,8 @@ with open(json_path, "r", encoding="utf-8") as f:
 # Get the base filename (e.g., "sample_data")
 json_base = os.path.splitext(os.path.basename(json_path))[0]
 
-max_iterations = 100
-
 # Iterate over each entry
 for i, entry in tqdm(enumerate(data)):
-    if i >= max_iterations:
-        break
 
     text = entry["row"]["text"]
 
