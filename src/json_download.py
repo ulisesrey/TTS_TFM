@@ -7,7 +7,6 @@ import urllib.parse
 import requests
 
 
-
 def download_json(user, dataset, config, split, offset, length, output):
     # URL-encode the dataset name (user/dataset)
     # Converts / to %2F
