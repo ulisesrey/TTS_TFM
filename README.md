@@ -1,2 +1,2 @@
 # TTS_TFM
-TTS project of my Master Thesis
+Repository containing the code to train, evaluate and deploy a TTS system.
